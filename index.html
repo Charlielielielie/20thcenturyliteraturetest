@@ -877,10 +877,9 @@
                 
 
                 <div class="result-media">
-                    <div class="image-frame" id="result-img-frame">
-                        <img id="result-img" src="" alt="Result image" class="hidden" />
-                        <span id="result-img-placeholder">Image placeholder. Add your own image later.</span>
-                    </div>
+                  <div class="image-frame" id="result-img-frame">
+    <img id="result-img" src="" alt="Result image" style="width: 100%; height: 100%; object-fit: cover; display: none;" />
+                </div>
                     <div class="quote-card">
                         <div class="quote-label">Classic Line</div>
                         <p id="result-quote" class="quote-text"></p>
@@ -1117,29 +1116,32 @@
     }
 
     function renderResult(key) {
-        const data = resultsData[key];
-        document.getElementById('result-job').textContent = data.job;
-        document.getElementById('result-quote').textContent = data.quote;
-        document.getElementById('result-quote-source').textContent = data.quoteSource;
-        document.getElementById('result-s1').textContent = data.s1;
-        document.getElementById('result-s2').textContent = data.s2;
-        document.getElementById('result-s3').textContent = data.s3;
+    const data = resultsData[key];
+    document.getElementById('result-job').textContent = data.job;
+    document.getElementById('result-quote').textContent = data.quote;
+    document.getElementById('result-quote-source').textContent = data.quoteSource;
+    document.getElementById('result-s1').textContent = data.s1;
+    document.getElementById('result-s2').textContent = data.s2;
+    document.getElementById('result-s3').textContent = data.s3;
 
-        const ul = document.getElementById('result-reading');
-        ul.innerHTML = "";
-        data.reading.forEach(item => {
-            const li = document.createElement('li');
-            li.textContent = item;
-            ul.appendChild(li);
-        });
+    // 處理閱讀清單
+    const ul = document.getElementById('result-reading');
+    ul.innerHTML = "";
+    data.reading.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        ul.appendChild(li);
+    });
 
-        const img = document.getElementById('result-img');
-        const ph = document.getElementById('result-img-placeholder');
-        img.classList.add('hidden');
-        img.removeAttribute('src');
-        ph.classList.remove('hidden');
+    // --- 圖片處理邏輯 ---
+    const img = document.getElementById('result-img');
+    if (data.image) {
+        img.src = data.image;      // 載入該類別對應的圖片
+        img.style.display = 'block'; // 顯示圖片
+    } else {
+        img.style.display = 'none';  // 若沒設定圖片則隱藏
     }
-
+}
     function restartToHome() {
         // 直接重新載入頁面，這樣就會從最外層的鬼火首頁重新開始
         window.location.reload();
@@ -1155,3 +1157,4 @@
 </body>
 
 </html>
+
